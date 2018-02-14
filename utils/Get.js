@@ -1,7 +1,7 @@
 var request = require('request-promise');
 var await = require('asyncawait/await');
 
-var Get = (uri, qs) => await(request({uri: uri, qs: qs}));
-Get.json = (uri, qs) => await(request({uri: uri, qs: qs, json: true}));
+var Get = (uri, qs, headers) => await(request({uri, qs, headers}));
+Get.json = (uri, qs, headers) => await(request({uri, qs, headers, json: true}));
 
 module.exports = Get;
