@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 form {border: 3px solid #f1f1f1;}
@@ -70,21 +71,23 @@ span.psw {
 
 <h2>Login Form</h2>
 
-<form action="/action_page.php">
+<form id="form">
   <div class="imgcontainer">
-    <img src="img_avatar2.png" alt="Avatar" class="avatar">
+    <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="Avatar" class="avatar">
   </div>
 
   <div class="container">
     <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+    <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
+    <div></div>
 
     <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+    <input type="password" placeholder="Enter Password" name="pwd" id="pwd" required>
+    <div></div>
 
-    <button type="submit">Login</button>
+    <button type="button" name="login" id="login">Login</button>
     <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
+      <input type="checkbox" checked="checked" name="remember" id="remember"> Remember me
     </label>
   </div>
 
@@ -93,6 +96,29 @@ span.psw {
     <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
 </form>
+<script>
+$("#login").on("click", function(){
+  var uname = $("#uname").val();
+  var pwd = $("#pwd").val();
+  var remember = $("#remember").is(":checked");
+  $("#uname").next("div").text("");
+  $("#pwd").next("div").text("");
+  if (uname === '') return $("#uname").next("div").text("請輸入帳號");
+  if (pwd === '') return $("#pwd").next("div").text("請輸入密碼");
+  $.post('/user/login', {
+    uname: uname,
+    pwd: pwd,
+    remember: remember
+  }, 'json').done(
+  function(data) { // 200 ok
+    console.log('api return:', data);
+    if (data.code !== 0) $("#uname").next("div").text(data.message);
+    location.href="/";
+  });
+
+});
+
+</script>
 
 </body>
 </html>

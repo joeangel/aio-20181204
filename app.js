@@ -25,8 +25,9 @@ var app = express()
 
 // Include user module
 .use('/', require('./routes/index'))
-.use('/car', require('./routes/car'))
+//.use('/car', require('./routes/car'))
 //新模組請加在這裏
+.use('/user', require('./routes/user'))
 
 // Serve static files
 .use('/', express.static('public'))
